@@ -27,3 +27,8 @@ useradd -m -s /bin/bash -g $GROUP_NAME $USER_NAME
 passwd $USER_NAME
 
 echo "New user created successfully!\n"
+
+# Creating directory for new user with sticky bit privilege
+mkdir /$USER_NAME
+chmod $USER_NAME.$GROUP_NAME /$USER_NAME
+chmod 1770 /$USER_NAME
