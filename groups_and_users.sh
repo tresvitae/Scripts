@@ -23,4 +23,7 @@ while [ $? -eq 0 ]
     getent passwd $USER_NAME >> /dev/null
   done
 
+useradd -m -s /bin/bash -g $GROUP_NAME $USER_NAME
+passwd $USER_NAME
+
 echo "New user created successfully!\n"
