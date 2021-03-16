@@ -8,12 +8,13 @@ while grep -q $GROUP_NAME /etc/group
     read GROUP_NAME
   done
 groupadd $GROUP_NAME
-echo "Group created successfuly!"
+echo "Group created successfully!"
 
+# Setting new user account
 echo -n "Enter a username name for the new user: \n"
 read USER_NAME
 
-getent passwd $username >> /dev/null
+getent passwd $USER_NAME >> /dev/null
 
 while [ $? -eq 0 ]
   do
@@ -22,4 +23,4 @@ while [ $? -eq 0 ]
     getent passwd $USER_NAME >> /dev/null
   done
 
-
+echo "New user created successfully!\n"
