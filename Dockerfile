@@ -8,8 +8,9 @@ RUN \
   apt-get -y upgrade && \
   apt-get install -y build-essential && \
   apt-get install -y curl git nano vim wget && \
-  rm -rf /var/lib/apt/lists/*  && \
-  useradd -m tres
+  rm -rf /var/lib/apt/lists/* && \
+  useradd -m tres && \
+  usermod -s /bin/bash tres
 
 # Add files.
 ADD docker-files/.bashrc /home/root/.bashrc
