@@ -57,7 +57,10 @@ function backup {
     fi
 }
 
-# Multiply backup for all supplied as an argument.
+# Multiply backup for all supplied users as an argument.
 for directory in $*; do
     backup $directory
+    let all=$all+$arch_files+$arch_dir
 done;
+    echo "Total files and directories: $all"
+

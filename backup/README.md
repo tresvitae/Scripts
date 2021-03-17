@@ -1,7 +1,6 @@
 # Simple backup
 
-`$ sudo ./users-home-dir.sh`
-or `$ sudo ./users-home-dir.sh 1_OR_MORE_USER_NAMES`
+`$ sudo ./users-home-dir.sh 1_OR_MORE_USER_NAMES`
 
 ### Case Scenario
 Creating a simple backup of user's home directory.
