@@ -2,8 +2,9 @@
 
 **Table of Contents**
 
-###Creating users and groups [Users&Groups](https://github.com/tresvitae/basic-shell-scripts/tree/main/users-and-groups "Users&Groups")
+Creating users and groups [Users&Groups](https://github.com/tresvitae/basic-shell-scripts/tree/main/users-and-groups "Users&Groups")
 
+Creating backup of user's home directory [Backup](https://github.com/tresvitae/basic-shell-scripts/tree/main/backup "Backup")
 
 
 Working reopository:
