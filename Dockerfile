@@ -14,6 +14,7 @@ RUN \
 # Add files.
 ADD docker-files/.bashrc /home/root/.bashrc
 COPY users-and-groups/groups_and_users.sh /home/root/
+COPY backup/users-home-dir.sh /home/root/
 
 # Set environment variables.
 ENV HOME /home/root
