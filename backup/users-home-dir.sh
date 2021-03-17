@@ -1,6 +1,17 @@
 #!/bin/bash
 
-user=$(whoami)
+# -z to check whether positional parameter $1 contains any value. Return true if length of string is zero.
+if [ -z $1 ]; then
+    user=$(whoami)
+else
+# -d to check if user's home dir exists.
+    if [ ! -d "/home/$1" ]; then
+        echo "Requested $1 user home directory doesn't exist."
+        exit 1
+    fi
+    user=$1
+fi
+
 input=/home/$user
 output=/tmp/${user}_home_$(date +%Y-%m-%d_%H%M%S).tar.gz
 
