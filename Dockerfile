@@ -7,7 +7,7 @@ RUN \
   apt-get update && \
   apt-get -y upgrade && \
   apt-get install -y build-essential && \
-  apt-get install -y curl git nano vim wget && \
+  apt-get install -y curl sudo git nano vim wget && \
   rm -rf /var/lib/apt/lists/* && \
   useradd -m tres && \
   usermod -s /bin/bash tres
