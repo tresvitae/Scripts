@@ -1,4 +1,4 @@
-# Linux Essentials Skills of creating various bash shell scripts.
+# Linux various bash scripts
 
 **Table of Contents**
 
@@ -13,8 +13,8 @@ $ docker image build -t lab:v1 .
 $ docker run -it lab:v1
 ```
 
-Clearing images from last 24h:
+Clearing docker env:
 ```sh
-$ docker container stop $(docker ps -aq)
-$ docker image prune -a --force --filter "until=24h"
+$ docker container stop lab:v1
+$ docker image rmi lab:v1
 ```
