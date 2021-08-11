@@ -8,7 +8,7 @@ import xml.dom.minidom as minidom
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-TC_SERVER_URL = 'https://dev-teamcity.saas.amherst.com'
+TC_SERVER_URL = 'https://localhost:8111'
 TC_TOKEN = '' # Your Token
 
 headers = {
