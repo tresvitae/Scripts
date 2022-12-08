@@ -1,6 +1,17 @@
 from boto3 import client, resource, session
 import uuid
+import logging
+import os
 
+#Save logs
+logging.basicConfig(filename="script.log",
+                    filemode='a',
+                    format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
+                    datefmt='%H:%M:%S',
+                    level=logging.DEBUG)
+log = logging.getLogger("s3_bucket_basics")
+
+#Define boto3 classes
 s3_client = client('s3')
 s3_resource = resource('s3')
 
@@ -17,24 +28,30 @@ def create_bucket(bucket_prefix, s3_connection):
         CreateBucketConfiguration={
         'LocationConstraint': current_region})
     print(bucket_name, current_region)
+    log.info("Bucket successfully created.")
     return bucket_name, bucket_response
 
-first_bucket_name, first_response = create_bucket(
-    bucket_prefix='firstbucket', 
-    s3_connection=s3_resource.meta.client)
+try:
+    first_bucket_name, first_response = create_bucket(
+        bucket_prefix='firstbucket', 
+        s3_connection=s3_resource.meta.client)
 
-print("Bucket name:", first_bucket_name)
-print(first_response)
+    print("Bucket name:", first_bucket_name)
+    print(first_response)
 
-second_bucket_name, second_response = create_bucket(
-    bucket_prefix='secondbucket', s3_connection=s3_resource)
+    second_bucket_name, second_response = create_bucket(
+        bucket_prefix='secondbucket', s3_connection=s3_resource)
 
-print("Bucket name:", second_bucket_name)
-print(second_response)
+    print("Bucket name:", second_bucket_name)
+    print(second_response)
+except:
+    logging.exception("Failed delete bucket.")
+    exit()
 
 #Create a file
 def create_temp_file(size, file_name, file_content):
     random_file_name = ''.join([str(uuid.uuid4().hex[:6]), file_name])
+    logging.info("Random file successfully created.")
     with open(random_file_name, 'w') as f:
         f.write(str(file_content) * size)
     return random_file_name
@@ -70,6 +87,7 @@ def copy_to_bucket(bucket_from_name, bucket_to_name, file_name):
         'Key': file_name
     }
     s3_resource.Object(bucket_to_name, file_name).copy(copy_source)
+    logging.info("File copied form one bucket to second.")
 
 copy_to_bucket(first_bucket_name, second_bucket_name, first_file_name)
 
@@ -94,10 +112,15 @@ def delete_all_objects(bucket_name):
         res.append({'Key': obj_version.object_key,
                     'VersionId': obj_version.id})
     print(res)
+    log.info("All object in the bucket deleted successfully.")
     bucket.delete_objects(Delete={'Objects': res})
 
 delete_all_objects(first_bucket_name)
 
 # Delete empty bucket
-s3_resource.Bucket(first_bucket_name).delete()
-s3_resource.meta.client.delete_bucket(Bucket=second_bucket_name)
+try:
+    s3_resource.Bucket(first_bucket_name).delete()
+    s3_resource.meta.client.delete_bucket(Bucket=second_bucket_name)
+except BucketNotEmpty:
+    logging.exception("Failed delete bucket.")
+    exit()
