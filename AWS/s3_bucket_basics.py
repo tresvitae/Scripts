@@ -1,5 +1,4 @@
-import boto3
-from boto3 import client, resource
+from boto3 import client, resource, session
 import uuid
 
 s3_client = client('s3')
@@ -10,8 +9,8 @@ def create_bucket_name(bucket_prefix):
     return ''.join([bucket_prefix, str(uuid.uuid4())])
 
 def create_bucket(bucket_prefix, s3_connection):
-    session = boto3.session.Session()
-    current_region = session.region_name
+    my_session = session.Session()
+    current_region = my_session.region_name
     bucket_name = create_bucket_name(bucket_prefix)
     bucket_response = s3_connection.create_bucket(
         Bucket=bucket_name,
@@ -102,4 +101,3 @@ delete_all_objects(first_bucket_name)
 # Delete empty bucket
 s3_resource.Bucket(first_bucket_name).delete()
 s3_resource.meta.client.delete_bucket(Bucket=second_bucket_name)
-#BucketNotEmpty log
