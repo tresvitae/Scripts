@@ -9,7 +9,6 @@ logging.basicConfig(filename="script.log",
                     format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
                     datefmt='%H:%M:%S',
                     level=logging.DEBUG)
-log = logging.getLogger("s3_bucket_basics")
 
 #Define boto3 classes
 s3_client = client('s3')
@@ -28,7 +27,7 @@ def create_bucket(bucket_prefix, s3_connection):
         CreateBucketConfiguration={
         'LocationConstraint': current_region})
     print(bucket_name, current_region)
-    log.info("Bucket successfully created.")
+    logging.info('Bucket %s successfully created.', bucket_name)
     return bucket_name, bucket_response
 
 try:
@@ -87,7 +86,7 @@ def copy_to_bucket(bucket_from_name, bucket_to_name, file_name):
         'Key': file_name
     }
     s3_resource.Object(bucket_to_name, file_name).copy(copy_source)
-    logging.info("File copied form one bucket to second.")
+    logging.info('File copied form one bucket: %s to second bucket: %s.', bucket_from_name, bucket_to_name)
 
 copy_to_bucket(first_bucket_name, second_bucket_name, first_file_name)
 
@@ -112,7 +111,7 @@ def delete_all_objects(bucket_name):
         res.append({'Key': obj_version.object_key,
                     'VersionId': obj_version.id})
     print(res)
-    log.info("All object in the bucket deleted successfully.")
+    logging.info("All object in the bucket deleted successfully.")
     bucket.delete_objects(Delete={'Objects': res})
 
 delete_all_objects(first_bucket_name)
@@ -120,7 +119,9 @@ delete_all_objects(first_bucket_name)
 # Delete empty bucket
 try:
     s3_resource.Bucket(first_bucket_name).delete()
+    logging.info('Bucket %s successfully created.', first_bucket_name)
     s3_resource.meta.client.delete_bucket(Bucket=second_bucket_name)
+    logging.info('Bucket %s successfully created.', second_bucket_name)
 except BucketNotEmpty:
     logging.exception("Failed delete bucket.")
     exit()
