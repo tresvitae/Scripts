@@ -8,7 +8,7 @@ args = parser.parse_args()
 
 tag = args.tag_name
 commit = args.commit
-command = 'git tag -a {0} {1} -m "{2}"'.format(tag, commit, tag)
+command = f'git tag -a {tag} {commit} -m "{tag}"'
 output = subprocess.check_output(command, shell=True).decode('utf-8')
 subprocess.call(command, shell=True)
 subprocess.call('git push --tags', shell=True)
