@@ -1,14 +1,14 @@
 import subprocess
-import sys
+import argparse
 
+parser = argparse.ArgumentParser()
+parser.add_argument('tag_name', help='The name of the tag to create.')
+parser.add_argument('commit', help='The commit to tag.', default='Fast fix.')
+args = parser.parse_args()
 
-if len(sys.argv) == 3:
-    tag = sys.argv[1]
-    commit = sys.argv[2]
-    command = 'git tag -a {0} {1} -m "{2}"'.format(tag, commit, tag)
-    output = subprocess.check_output(command, shell=True).decode('utf-8')
-    subprocess.call(command, shell=True)
-    subprocess.call('git push --tags', shell=True)
-else:
-    print('usage: tag.py TAG_NAME COMMIT')
-    sys.exit(1)
+tag = args.tag_name
+commit = args.commit
+command = 'git tag -a {0} {1} -m "{2}"'.format(tag, commit, tag)
+output = subprocess.check_output(command, shell=True).decode('utf-8')
+subprocess.call(command, shell=True)
+subprocess.call('git push --tags', shell=True)
